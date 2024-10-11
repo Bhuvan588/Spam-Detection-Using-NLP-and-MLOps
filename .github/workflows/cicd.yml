@@ -37,7 +37,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Build The Docker Image
-      run: docker build . --file DockerFile --tag workflow-test:$(date +%s)
+      run: docker build . --file Dockerfile --tag workflow-test:$(date +%s)  # Use 'Dockerfile' (lowercase 'f')
 
   build-and-publish:
     needs: [dockerbuild]  # This job depends on the dockerbuild job
@@ -60,7 +60,7 @@ jobs:
       uses: docker/build-push-action@v4
       with:
         context: .
-        file: ./DockerFile
+        file: ./Dockerfile  # Use 'Dockerfile' (lowercase 'f')
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/flask-app:latest  # Specify your Docker image name
 
