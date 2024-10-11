@@ -25,7 +25,7 @@ def test_index(client):
 
 #Testing predict route when the email content is classified as spam
 
-def test_predict_spam(client, patch):
+def test_predict_spam(client, monkeypatch):
 
     def mock_model_predict(features):
 
@@ -35,8 +35,8 @@ def test_predict_spam(client, patch):
 
         return text
     
-    patch.setattr('app.model.predict', mock_model_predict)
-    patch.setattr('app.vectorizer.transform', mock_vectorizer_transform)
+    monkeypatch.setattr('app.model.predict', mock_model_predict)
+    monkeypatch.setattr('app.vectorizer.transform', mock_vectorizer_transform)
 
 
     #Sending a POST request to the /predict route with email content
@@ -49,7 +49,7 @@ def test_predict_spam(client, patch):
 
 #Testing predict route when email is classified as non-spam
 
-def test_predict_ham(client, patch):
+def test_predict_ham(client, monkeypatch):
 
     def mock_model_predict(features):
 
@@ -60,8 +60,8 @@ def test_predict_ham(client, patch):
 
         return text
     
-    patch.setattr('app.model.predict', mock_model_predict)
-    patch.setattr('app.vectorizer.transform', mock_vectorizer_transform)
+    monkeypatch.setattr('app.model.predict', mock_model_predict)
+    monkeypatch.setattr('app.vectorizer.transform', mock_vectorizer_transform)
 
     #Sending a POST request to the /predict route with email content
     response =  client.post('/predict', data = {'extracted_text': 'This is regarding your job application.'})
